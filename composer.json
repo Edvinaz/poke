@@ -1,0 +1,17 @@
+{
+    "name": "edvin/poke",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Edvinas",
+            "email": "edvinas@uola.lt"
+        }
+    ],
+    "require": {
+        "nikic/fast-route": "^1.3"
+    }
+}
