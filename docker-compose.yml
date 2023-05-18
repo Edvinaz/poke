@@ -17,8 +17,8 @@ services:
       - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=your_database
-      - MYSQL_USER=your_user
-      - MYSQL_PASSWORD=your_password
+      - MYSQL_DATABASE=poke3000
+      - MYSQL_USER=poke
+      - MYSQL_PASSWORD=poke3000
     volumes:
       - ./mysql/data:/var/lib/mysql
