@@ -4,12 +4,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-unset($_SESSION['user']);
 if (isset($_SESSION['user'])) {
-    echo 'user logged in';
+    require __DIR__ . '/poke.php';
 } else {
     require __DIR__ . '/../src/templates/login.php';
 }
-//$controller = new \App\Controllers\HomeController();
-//
-//$controller->index();

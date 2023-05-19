@@ -13,12 +13,12 @@ class DbConnection
     private $password;
     private $pdo;
 
-    public function __construct($host, $dbname, $username, $password)
+    public function __construct()
     {
-        $this->host = $host;
-        $this->dbname = $dbname;
-        $this->username = $username;
-        $this->password = $password;
+        $this->host = 'mysql';
+        $this->dbname = 'poke3000';
+        $this->username = 'poke';
+        $this->password = 'poke3000';
         $this->connect();
     }
 

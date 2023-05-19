@@ -1,8 +1,10 @@
 <?php
 
+use App\Database\DbConnection;
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$db = new \App\Database\DbConnection('mysql', 'poke3000', 'poke', 'poke3000');
+$db = new DbConnection();
 
 $query = "
             CREATE TABLE IF NOT EXISTS users (
@@ -11,7 +13,8 @@ $query = "
                 name VARCHAR(255) NOT NULL,
                 surname VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                poke INT(11)
+                poke INT(11),
+                UNIQUE INDEX unique_email (email)
             )
             ENGINE=InnoDB DEFAULT CHARSET=utf8;
         ";
