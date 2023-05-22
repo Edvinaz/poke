@@ -1,10 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
-
-// Check if the user is already logged in
 if (!isset($_SESSION['user'])) {
-    // Redirect the user to the home page or any other desired location
     header("Location: /");
     exit();
 }
@@ -26,22 +22,40 @@ if (!isset($_SESSION['user'])) {
 <a href="register.php?edit=true">Redaguoti</a>
 <a href="logout.php">Atsijungti</a>
 
-<table id="pokeList">
-    <tbody></tbody>
-</table>
+<div>
+    <p>Gauti poke</p>
+    <table id="pokeList">
+        <tbody></tbody>
+    </table>
+</div>
 
-<table id="userList" width="100%" border="1">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Surname</th>
-        <th>Email</th>
-        <th>Pokes</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody></tbody>
-</table>
+<div>
+    <p>Išsiųsti poke</p>
+    <table id="pokedList" border="1">
+        <tbody></tbody>
+    </table>
+</div>
+<div>
+    <p>USER LIST</p>
+    <form id="searchForm">
+        <label for="search">Paieska</label><input id="search" />
+        <button type="submit">ieškoti</button>
+    </form>
+
+    <table id="userList" width="100%" border="1">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Email</th>
+            <th>Pokes</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div id="userPages"></div>
+</div>
 
 </body>
 </html>

@@ -5,7 +5,7 @@ use App\Repositories\UserRepository;
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 $repository = new UserRepository();
-$fileName = 'users.json';
+$fileName = 'pokes.json';
 
 $jsonData = file_get_contents($fileName);
 
@@ -14,7 +14,7 @@ if ($jsonData !== false) {
 
     if ($data !== null) {
         foreach ($data as $item) {
-            $repository->saveUser($item);
+            $repository->importPoke($item);
         }
     } else {
         echo 'Failed to decode JSON.';

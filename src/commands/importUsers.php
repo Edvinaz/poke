@@ -10,19 +10,18 @@ $repository = new UserRepository();
 $fileName = 'users.csv';
 
 $file = fopen($fileName, 'r');
-$list = [];
 
 if ($file) {
     while (($data = fgetcsv($file)) !== false) {
         if (is_array($data)) {
             $user = [
-                'email' => $data[0],
+                'email' => $data[3],
                 'name' => $data[1],
                 'surname' => $data[2],
-                'password' => PasswordGenerator::generatePassword(6),
+                'password' => PasswordGenerator::generatePassword(8),
             ];
             $repository->saveUser($user);
-$list[] = $user;
+
             echo sprintf('Inserted user name: %s, surname: %s, email: %s, password: %s '.PHP_EOL,
                 $user['name'],
                 $user['surname'],
@@ -37,5 +36,3 @@ $list[] = $user;
 } else {
     echo 'not found';
 }
-
-var_dump(json_encode($list));

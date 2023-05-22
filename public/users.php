@@ -6,16 +6,23 @@ session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$repository = new UserRepository();
+
 $data = $_GET['data'];
-$limit = $_GET['limit'] ?? 2;
+$limit = $_GET['limit'] ?? 20;
 $offset = $_GET['offset'] ?? 0;
+$search = isset($_GET['search']) ? $_GET['search'] : null;
 
 if (isset($data) && $data === 'list') {
-    $data = (new UserRepository())->getUsersForList($_SESSION['user']['username'], $limit, $offset);
+
+    $data = $repository->getUsersForList($_SESSION['user']['username'], $search, $limit, $offset);
+    $meta = $repository->getUsersForListCount($_SESSION['user']['username'], $search);
+
     $response = array(
         'status' => 'success',
         'message' => 'Data retrieved successfully.',
-        'data' => json_encode($data)
+        'data' => json_encode($data),
+        'meta' => $meta,
     );
 
     echo json_encode($response);
@@ -24,7 +31,7 @@ if (isset($data) && $data === 'list') {
 }
 
 if (isset($data) && $data === 'poke_user') {
-    $data = (new UserRepository())->pokeUser($_GET['poked_user']);
+    $data = $repository->pokeUser($_GET['poked_user']);
 
     $response = array(
         'status' => 'success',
@@ -38,7 +45,21 @@ if (isset($data) && $data === 'poke_user') {
 }
 
 if (isset($data) && $data === 'pokes') {
-    $data = (new UserRepository())->getUserPokes();
+    $data = $repository->getUserPokes();
+
+    $response = array(
+        'status' => 'success',
+        'message' => 'Data retrieved successfully.',
+        'data' => json_encode($data)
+    );
+
+    echo json_encode($response);
+
+    exit();
+}
+
+if (isset($data) && $data === 'poked') {
+    $data = $repository->getPokedUsers();
 
     $response = array(
         'status' => 'success',
