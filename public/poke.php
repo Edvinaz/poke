@@ -1,7 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+use App\Repositories\UserRepository;
 
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Check if the user is already logged in
 if (!isset($_SESSION['user'])) {
@@ -10,7 +11,7 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-$list = (new \App\Repositories\UserRepository())->getUsersForList($_SESSION['user']['username']);
+$list = (new UserRepository())->getUsersForList($_SESSION['user']['username']);
 ?>
 
 <!DOCTYPE html>
@@ -18,13 +19,7 @@ $list = (new \App\Repositories\UserRepository())->getUsersForList($_SESSION['use
 <head>
     <title>Pokes</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function testClick(user) {
-            var userId = '<?php echo $_SESSION["user"]['username']; ?>';
-            console.log(userId);
-            console.log('test' + user);
-        }
-    </script>
+    <script src="/js/scripts.js"></script>
 </head>
 <body>
 <h2>Poke</h2>
@@ -34,7 +29,8 @@ $list = (new \App\Repositories\UserRepository())->getUsersForList($_SESSION['use
 
 <a href="register.php?edit=true">Redaguoti</a>
 
-<table width="100%" border="1">
+<table id="userList" width="100%" border="1">
+    <thead>
     <tr>
         <th>Name</th>
         <th>Surname</th>
@@ -42,17 +38,8 @@ $list = (new \App\Repositories\UserRepository())->getUsersForList($_SESSION['use
         <th>Pokes</th>
         <th></th>
     </tr>
-    <?php
-    foreach ($list as $item) {
-    ?>
-    <tr>
-        <td><?=$item['name'];?></td>
-        <td><?=$item['surname'];?></td>
-        <td><?=$item['email'];?></td>
-        <td><?=$item['poke'];?></td>
-        <td><button onclick="testClick(<?=$item['id'];?>)" >Poke</button> </td>
-    </tr>
-    <?php }?>
+    </thead>
+    <tbody></tbody>
 </table>
 
 </body>

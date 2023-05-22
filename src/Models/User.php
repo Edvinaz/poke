@@ -4,6 +4,7 @@ namespace App\Models;
 
 class User
 {
+    private int $id;
     private string $email;
     private string $name;
     private string $surname;
@@ -49,9 +50,20 @@ class User
         $this->password = $password;
     }
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
     public static function getUser(array $values)
     {
         $user = new self();
+        $user->setId($values['id']);
         $user->setName($values['name']);
         $user->setSurname($values['surname']);
         $user->setEmail($values['email']);

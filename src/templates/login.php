@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result) {
         // Valid credentials, set the user in the session
         $_SESSION['user'] = [
-            'username' => $username
+            'username' => $username,
+            'id' => $result->getId(),
         ];
 
         // Redirect the user to the home page or any other desired location
