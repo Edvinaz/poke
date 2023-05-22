@@ -60,8 +60,11 @@ class User
         $this->id = $id;
     }
 
-    public static function getUser(array $values)
+    public static function getUser(?array $values)
     {
+        if ($values === null) {
+            return null;
+        }
         $user = new self();
         $user->setId($values['id']);
         $user->setName($values['name']);

@@ -17,12 +17,12 @@ class UserRepository
     {
         $query = sprintf('SELECT * FROM users WHERE email="%s" AND password="%s"', $username, md5($password));
 
-        return User::getUser($this->connection->executeQuery($query)[0]);
+        return $this->connection->executeQuery($query) !== null ? User::getUser($this->connection->executeQuery($query)[0]) : null;
     }
 
-    public function getUsersForList(string $loggedInUser)
+    public function getUsersForList(string $loggedInUser, int $limit, int $offset)
     {
-        $query = sprintf('SELECT * FROM users WHERE email <> "%s"', $loggedInUser);
+        $query = sprintf('SELECT * FROM users WHERE email <> "%s" LIMIT %d OFFSET %d', $loggedInUser, $limit, $offset);
 
         return $this->connection->executeQuery($query);
     }
@@ -53,7 +53,7 @@ class UserRepository
         $query = sprintf('UPDATE users SET poke=poke + 1 WHERE id=%d', $pokedUSer);
         $one = $this->connection->executeQuery($query);
 
-        $query2 = sprintf('INSERT INTO poke_history (from_user, to_user, date) VALUES (%d, %d, "%s")', $_SESSION['user']['id'], $pokedUSer, '2022-02-02');
+        $query2 = sprintf('INSERT INTO poke_history (from_user, to_user, date) VALUES (%d, %d, "%s")', $_SESSION['user']['id'], $pokedUSer, (new \DateTime('now'))->format('Y-m-d H:i:s'));
         $two = $this->connection->executeQuery($query2);
 
         return true;
@@ -62,7 +62,7 @@ class UserRepository
     public function getUserPokes()
     {
         $query = sprintf('
-            SELECT * FROM poke_history ph
+            SELECT ph.date, fu.email, fu.name, fu.surname FROM poke_history ph
             JOIN users fu ON fu.id=ph.from_user
             JOIN users tu ON tu.id=ph.to_user
             WHERE tu.id=%d

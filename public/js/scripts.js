@@ -1,6 +1,7 @@
 getUserList();
+getPokes();
+
 function pokeUser(user) {
-    console.log(user);
     $.ajax({
         type: 'GET',
         url: 'users.php',
@@ -11,11 +12,7 @@ function pokeUser(user) {
             if (responseObject.status === 'success') {
                 // Process the list data
                 getUserList();
-                console.log(JSON.parse(responseObject.data));
-                // var listData = responseObject.data;
-                // Update the HTML with the list data
-                // document.getElementById('listContainer').innerHTML = listData;
-                // alert(responseObject.message);
+
             } else {
                 alert('Error: ' + responseObject.message);
             }
@@ -26,6 +23,7 @@ function pokeUser(user) {
     });
 }
 function getPokes() {
+    console.log('get pokes');
     $.ajax({
         type: 'GET',
         url: 'users.php',
@@ -33,15 +31,26 @@ function getPokes() {
         success: function(response) {
             // Handle the server response
             var responseObject = JSON.parse(response);
+            var dataObject = JSON.parse(responseObject.data);
+
             if (responseObject.status === 'success') {
-                // Process the list data
-                console.log(JSON.parse(responseObject.data));
-                // var listData = responseObject.data;
-                // Update the HTML with the list data
-                // document.getElementById('listContainer').innerHTML = listData;
-                // alert(responseObject.message);
+                var table = document.getElementById('pokeList');
+                var tbody = table.getElementsByTagName('tbody')[0];
+                tbody.innerHTML = ''; // Clear existing table data
+
+                // Populate the table with data
+                for (var i = 0; i < dataObject.length; i++) {
+                    var record = dataObject[i];
+
+                    var row = tbody.insertRow();
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+
+                    cell1.innerHTML = record.email;
+                    cell2.innerHTML = record.date;
+                }
             } else {
-                alert('Error: ' + responseObject.message);
+                alert('Error: ' + data.message);
             }
         },
         error: function() {
@@ -50,11 +59,15 @@ function getPokes() {
     });
 }
 
-function getUserList() {
+function getUserList(limit, offset) {
     $.ajax({
         type: 'GET',
         url: 'users.php',
-        data: { data: 'list'},
+        data: {
+            data: 'list',
+            limit: limit,
+            offset: offset,
+        },
         success: function(response) {
             // Handle the server response
             var responseObject = JSON.parse(response);
@@ -68,7 +81,7 @@ function getUserList() {
                 // Populate the table with data
                 for (var i = 0; i < dataObject.length; i++) {
                     var record = dataObject[i];
-                    console.log(record);
+
                     var row = tbody.insertRow();
                     var cell1 = row.insertCell(0);
                     var cell2 = row.insertCell(1);

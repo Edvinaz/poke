@@ -13,7 +13,7 @@ $query = "
                 name VARCHAR(255) NOT NULL,
                 surname VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                poke INT(11),
+                poke INT(11) DEFAULT 0,
                 UNIQUE INDEX unique_email (email)
             )
             ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,7 +1,5 @@
 <?php
 
-use App\Repositories\UserRepository;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Check if the user is already logged in
@@ -10,8 +8,6 @@ if (!isset($_SESSION['user'])) {
     header("Location: /");
     exit();
 }
-
-$list = (new UserRepository())->getUsersForList($_SESSION['user']['username']);
 ?>
 
 <!DOCTYPE html>
@@ -28,6 +24,11 @@ $list = (new UserRepository())->getUsersForList($_SESSION['user']['username']);
 <?php } ?>
 
 <a href="register.php?edit=true">Redaguoti</a>
+<a href="logout.php">Atsijungti</a>
+
+<table id="pokeList">
+    <tbody></tbody>
+</table>
 
 <table id="userList" width="100%" border="1">
     <thead>

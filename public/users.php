@@ -7,9 +7,11 @@ session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 
 $data = $_GET['data'];
+$limit = $_GET['limit'] ?? 2;
+$offset = $_GET['offset'] ?? 0;
 
 if (isset($data) && $data === 'list') {
-    $data = (new UserRepository())->getUsersForList($_SESSION['user']['username']);
+    $data = (new UserRepository())->getUsersForList($_SESSION['user']['username'], $limit, $offset);
     $response = array(
         'status' => 'success',
         'message' => 'Data retrieved successfully.',
