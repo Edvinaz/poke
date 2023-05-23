@@ -6,7 +6,7 @@ use App\Database\DbConnection;
 use App\Models\User;
 use App\Services\EmailService;
 
-class UserRepository
+class Repository
 {
     private DbConnection $connection;
 

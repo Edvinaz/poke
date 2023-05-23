@@ -1,37 +1,32 @@
 <?php
 
-use App\Repositories\UserRepository;
+use App\Repositories\Repository;
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Check if the user is already logged in
+session_start();
+
 if (isset($_SESSION['user'])) {
-    // Redirect the user to the home page or any other desired location
     header("Location: poke.php");
     exit();
 }
 
-// Check if the login form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve the submitted credentials
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    $result = (new UserRepository())->getUser($username, $password);
+    $result = (new Repository())->getUser($username, $password);
+//    var_dump($_SESSION['user']);
 
-    // Validate the credentials (replace with your own validation logic)
     if ($result) {
-        // Valid credentials, set the user in the session
         $_SESSION['user'] = [
             'username' => $username,
             'id' => $result->getId(),
         ];
 
-        // Redirect the user to the home page or any other desired location
         header("Location: poke.php");
         exit();
     } else {
-        // Invalid credentials
         $error = "Invalid username or password";
     }
 }

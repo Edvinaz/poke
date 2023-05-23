@@ -10,7 +10,7 @@ getPokedUsers();
 function pokeUser(user) {
     $.ajax({
         type: 'GET',
-        url: 'users.php',
+        url: 'ajax.php',
         data: { poked_user: user, data: 'poke_user'},
         success: function(response) {
             var responseObject = JSON.parse(response);
@@ -30,7 +30,7 @@ function getPokes() {
     console.log('get pokes');
     $.ajax({
         type: 'GET',
-        url: 'users.php',
+        url: 'ajax.php',
         data: { data: 'pokes'},
         success: function(response) {
             // Handle the server response
@@ -65,7 +65,7 @@ function getPokes() {
 function getPokedUsers() {
     $.ajax({
         type: 'GET',
-        url: 'users.php',
+        url: 'ajax.php',
         data: { data: 'poked'},
         success: function(response) {
             // Handle the server response
@@ -100,7 +100,7 @@ function getPokedUsers() {
 function getUserList(search) {
     $.ajax({
         type: 'GET',
-        url: 'users.php',
+        url: 'ajax.php',
         data: {
             data: 'list',
             limit: limit,

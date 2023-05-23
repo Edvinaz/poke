@@ -1,12 +1,12 @@
 <?php
 
-use App\Repositories\UserRepository;
+use App\Repositories\Repository;
 
 session_start();
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$repository = new UserRepository();
+$repository = new Repository();
 
 $data = $_GET['data'];
 $limit = $_GET['limit'] ?? 20;

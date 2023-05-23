@@ -1,6 +1,6 @@
 <?php
 
-use App\Database\DbConnection;
+use App\Repositories\Repository;
 
 session_start();
 
@@ -11,21 +11,18 @@ $name_edit = '';
 $surname_edit = '';
 $email_edit = '';
 
-// Check if the user is already logged in
 if (isset($_SESSION['user']) && !isset($_GET['edit'])) {
-    // Redirect the user to the home page or any other desired location
     header("Location: index.php");
     exit();
 } elseif(isset($_SESSION['user']) && isset($_GET['edit'])) {
     $disabled = true;
-    $user = (new \App\Repositories\UserRepository())->getUserByUsername($_SESSION['user']['username']);
+    $user = (new Repository())->getUserByUsername($_SESSION['user']['username']);
 
     $name_edit = $user->getName();
     $surname_edit = $user->getSurname();
     $email_edit = $user->getEmail();
 }
 
-// Check if the registration form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the submitted data
     $name = $_POST['name'];
@@ -34,27 +31,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $password_r = $_POST['password_r'];
 
-    // Validate the input fields
     $errors = [];
 
-    // Check if name is empty
     if (empty($name)) {
         $errors[] = "Name is required";
     }
 
-    // Check if surname is empty
     if (empty($surname)) {
         $errors[] = "Surname is required";
     }
 
-    // Check if email is empty and valid format
     if (empty($email) && !$disabled) {
         $errors[] = "Email is required";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL) && !$disabled) {
         $errors[] = "Invalid email format";
     }
 
-    // Check if password is empty and meets requirements
     if (empty($password)) {
         $errors[] = "Password is required";
     } elseif (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/", $password)) {
@@ -65,23 +57,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = "Passwords did not match";
     }
 
-    // If there are no errors, perform further actions (e.g., save user to database) sSs8sS
     if (empty($errors) && !$disabled) {
-        // Perform your registration logic here (e.g., save user to database)
-        (new \App\Repositories\UserRepository())->saveUser([
+        (new Repository())->saveUser([
             'email' => $email,
             'name' => $name,
             'surname' => $surname,
             'password' => $password,
         ]);
-        // Set a success message
         $_SESSION['success'] = "Registration successful!";
 
-        // Redirect the user to the login page or any other desired location
         header("Location: /");
         exit();
     } else {
-        (new \App\Repositories\UserRepository())->updateUser([
+        (new Repository())->updateUser([
             'email' => $email,
             'name' => $name,
             'surname' => $surname,

@@ -1,11 +1,11 @@
 <?php
 
 use App\Helpers\PasswordGenerator;
-use App\Repositories\UserRepository;
+use App\Repositories\Repository;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-$repository = new UserRepository();
+$repository = new Repository();
 
 $fileName = 'users.csv';
 
